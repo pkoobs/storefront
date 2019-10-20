@@ -1,0 +1,99 @@
+/* The styles for the elements */
+body { 
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 85%;
+    margin-left: 2em;
+    margin-right: 2em;
+    background-color: #FFF4DE;
+}
+.header {
+    background: #4C5EB3;
+    width: 100%;
+    font-size: 25px;
+    color: white;
+    padding: 10px 0 10px 0;
+}
+h1 {     
+    font-size: 140%;
+    color: teal;
+    margin-bottom: .5em;
+}
+label {
+    float: left;
+    width: 7em;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+}
+input[type="text"], input[type="email"] {  /* An attribute selector */
+    width: 15em;
+    margin-left: 0.5em;    
+    margin-bottom: 0.5em;
+}
+span {
+    margin-left: 0.5em;    
+    margin-bottom: 0.5em;    
+}
+br {
+    clear: both;
+}
+
+/* The styles for the classes */
+.pad_top {
+    padding-top: 0.25em;
+}
+.margin_left {
+    margin-left: 0.5em;
+}
+
+.thick {
+    font-weight: bold;
+}
+
+.thinBorder {
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 1px;
+}
+
+.coursesSpacing {
+    position: absolute;
+    left: 200px; 
+}
+
+.removeSpacing {
+    position: absolute;
+    left: 235px; 
+}
+
+.borderTitle {
+    position: relative;
+    top: 6px;
+    background: white;
+    width: 30px;
+}
+
+.borderBottom {
+    border-bottom: 1px black solid;
+    width: 300px;
+}
+
+.bottomTopSpacing {
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.bottomSpacing {
+    padding-top: -25px;
+
+}
+
+.fieldset {
+    border: 1px solid #D3D3D3;
+
+}
+
+.total {
+    position: absolute;
+    left: 150px;
+
+}

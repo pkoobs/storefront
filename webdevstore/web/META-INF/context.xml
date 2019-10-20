@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/webdevstore">
+    <Resource name="webdevstore" auth="Container" 
+              driverClassName="com.mysql.jdbc.Driver" 
+              url="jdbc:mysql://sql9.freemysqlhosting.net:3306/sql9308322"
+              username="sql9308322" password="5ENZiFaqYN"
+              maxActive="100" maxIdle="30" maxWait="10000" 
+              logAbandoned="true" removeAbandoned="true" 
+              removeAbandonedTimeout="60" type="javax.sql.DataSource" />
+</Context>
