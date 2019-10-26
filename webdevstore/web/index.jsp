@@ -60,7 +60,6 @@ and open the template in the editor.
         <form action="pages/survey.jsp" method="post">
             <input type="submit" value="survey">
         </form>
-
         <form action="StoreController" method="post">
             <input type="hidden" name="action" value="login">    
 

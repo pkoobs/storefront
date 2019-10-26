@@ -13,7 +13,7 @@
         <h1>Survey</h1>
         <%@ page import="java.util.logging.Logger, mmp.business.*, java.util.*" %>
 
-        <form action="StoreController" method="post">
+        <form action="../StoreController" method="post">
             <input type="hidden" name="action" value="Survey">      
 
             <fieldset>

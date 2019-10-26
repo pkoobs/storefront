@@ -158,7 +158,8 @@ public class StoreController extends HttpServlet {
         System.out.println("handling survey request");
         HttpSession session = request.getSession();
         String selection = request.getParameter("selection");
-        log("selection name is " + selection);
+        String shipping = request.getParameter("shipping");
+        System.out.println("choices are " + selection + ", " + shipping);
 
     }
 
