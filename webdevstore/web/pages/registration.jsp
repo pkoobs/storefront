@@ -10,5 +10,16 @@
     </head>
     <body>
         <h1>Registration</h1>
+
+        <form action="../StoreController" method="post">
+            <input type="hidden" name="action" value="Register">    
+            <label class="pad_top">Name:</label>
+            <input type="text" name="fullName" required><br>
+            <label class="pad_top">Email:</label>
+            <input type="email" name="email" required><br>
+            <label class="pad_top">Password:</label>
+            <input type="password" name="password" required><br>
+            <input type="submit" value="Register">
+        </form>
     </body>
 </html>

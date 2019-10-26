@@ -130,6 +130,10 @@ public class StoreController extends HttpServlet {
             handleSurveyRequest(request, response);
             dispatcher = getServletConfig().getServletContext()
                     .getRequestDispatcher("/pages/surveyThankyou.jsp");
+        } else if (action.contains("REgister")) {
+            handleRegisterRequest(request, response);
+            dispatcher = getServletConfig().getServletContext()
+                    .getRequestDispatcher("/pages/catalog.jsp");
         } else {
             log("cant find the action " + action);
         }
@@ -161,6 +165,10 @@ public class StoreController extends HttpServlet {
         String shipping = request.getParameter("shipping");
         System.out.println("choices are " + selection + ", " + shipping);
 
+    }
+
+    private void handleRegisterRequest(HttpServletRequest request, HttpServletResponse response) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
