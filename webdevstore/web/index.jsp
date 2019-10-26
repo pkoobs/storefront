@@ -4,6 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head>
         <title>MMP Movie Entertainment</title>
@@ -30,19 +31,18 @@ and open the template in the editor.
             }
 
             Cart cart = (Cart) session.getAttribute("cart");
-            if (cart == null)
-            {
+            if (cart == null) {
                 cart = new Cart();
                 cart.setItems(new ArrayList<Item>());
             }
             logger.info("cart size is " + cart.getItems().size());
         %>
 
-        
+
         <div class="thick">
             Cart size: <%= cart.getItems().size()%>
         </div>
-        
+
         <form action="pages/cart.jsp" method="post">
             <input type="submit" value="cart">
         </form>
@@ -50,6 +50,7 @@ and open the template in the editor.
             <input type="hidden" name="action" value="catalog">    
             <input type="submit" value="catalog">
         </form>
+
         <form action="pages/checkout.jsp" method="post">
             <input type="submit" value="checkout">
         </form>

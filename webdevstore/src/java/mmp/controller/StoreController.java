@@ -124,8 +124,18 @@ public class StoreController extends HttpServlet {
                     .getRequestDispatcher("/pages/catalog.jsp");
         } else if (action.startsWith("Add")) {
             handleAddItem(request, response);
+        } else if (action.startsWith("Remove")) {
+            handleRemoveItem(request, response);
+        } else if (action.contains("Survey")) {
+            handleSurveyRequest(request, response);
+            dispatcher = getServletConfig().getServletContext()
+                    .getRequestDispatcher("/pages/surveyThankyou.jsp");
+        } else {
+            log("cant find the action " + action);
         }
+
         session.setAttribute("cart", cart);
+        session.setAttribute("cartItems", cart.getItems());
         dispatcher.forward(request, response);
 
     }
@@ -138,6 +148,18 @@ public class StoreController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
+    }
+
+    private void handleRemoveItem(HttpServletRequest request, HttpServletResponse response) {
+
+    }
+
+    private void handleSurveyRequest(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("handling survey request");
+        HttpSession session = request.getSession();
+        String selection = request.getParameter("selection");
+        log("selection name is " + selection);
+
     }
 
 }
