@@ -29,24 +29,43 @@
         %>
 
         <div class="thick">
+            <%
+                if (user != null) {
+            %>
+
             Welcome back <%= user.getEmail()%>!
+            <%
+                }
+            %>
+        </script>
+    </div>
+
+
+    <!-- We need to add boxes Fields digital, BR, or DVD -->
+    <c:forEach items="${catalog}" var="item" >
+        <div>
+            <span><c:out value="${item.name}" /></span>
+
+            <form action="StoreController" method="post">
+
+                <c:if test="${item.getDvdQuantity() > 0}">
+                    <input type="submit" name="action" value="Add DVD">
+                    <input type="hidden" name="movieCode" value="${item.name}">
+                </c:if>
+                <c:if test="${item.getBluRayQuantity() > 0}">
+                    <input type="submit" name="action" value="Add Bluray">
+                    <input type="hidden" name="movieCode" value="${item.name}">
+                </c:if>
+                <c:if test="${item.getDigitalQuantity() > 0}">
+                    <input type="submit" name="action" value="Add Digital">
+                    <input type="hidden" name="movieCode" value="${item.name}">
+                </c:if>
+
+            </form>
         </div>
-
-
-        <!-- We need to add boxes Fields digital, BR, or DVD -->
-        <c:forEach items="${catalog}" var="item" >
-            <div>
-                <span><c:out value="${item.name}" /></span>
-
-                <form action="StoreController" method="post">
-                    <input type="submit" name="action" value="Add Item">
-                    <input type="hidden" name="movieCode" 
-                           value="${item.name}">
-                </form>
-            </div>
-        </c:forEach>
+    </c:forEach>
 
 
 
-    </body>
+</body>
 </html>

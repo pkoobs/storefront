@@ -52,6 +52,36 @@ public class StoreController extends HttpServlet {
         }
     }
 
+    protected void handleAddItem(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+
+        Cart cart = (Cart) session.getAttribute("cart");
+        String movieCode = request.getParameter("movieCode");
+        String action = request.getParameter("action");
+        Item item = cart.findItem(movieCode);
+        boolean newItem = null == item;
+        if (null == item) {
+            item = new Item();
+            item.setName(movieCode);
+        }
+
+        if (action.contains("Digital")) {
+            int currCount = item.getDigitalQuantity();
+            item.setDigitalQuantity(++currCount);
+        } else if (action.contains("Blu")) {
+            int currCount = item.getBluRayQuantity();
+            item.setBluRayQuantity(++currCount);
+        } else if (action.contains("DVD")) {
+            int currCount = item.getDvdQuantity();
+            item.setDvdQuantity(++currCount);
+        }
+
+        if (newItem) {
+            cart.addItem(item);
+        }
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -68,6 +98,9 @@ public class StoreController extends HttpServlet {
         }
         String action = request.getParameter("action");
         log("action: " + action);
+
+        String movieCode = request.getParameter("movieCode");
+        log("movieCode: " + movieCode);
 
         if ("login".equals(action)) {
             String password = request.getParameter("password");
@@ -86,8 +119,12 @@ public class StoreController extends HttpServlet {
             item.setName(request.getParameter("movieCode"));
             log("attempting to add item " + item.getName());
             cart.getItems().add(item);
+        } else if ("catalog".equals(action)) {
+            dispatcher = getServletConfig().getServletContext()
+                    .getRequestDispatcher("/pages/catalog.jsp");
+        } else if (action.startsWith("Add")) {
+            handleAddItem(request, response);
         }
-
         session.setAttribute("cart", cart);
         dispatcher.forward(request, response);
 

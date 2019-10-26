@@ -46,7 +46,8 @@ and open the template in the editor.
         <form action="pages/cart.jsp" method="post">
             <input type="submit" value="cart">
         </form>
-        <form action="pages/catalog.jsp" method="post">
+        <form action="StoreController" method="post">
+            <input type="hidden" name="action" value="catalog">    
             <input type="submit" value="catalog">
         </form>
         <form action="pages/checkout.jsp" method="post">

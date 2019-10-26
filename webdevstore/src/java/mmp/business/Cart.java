@@ -8,7 +8,7 @@ package mmp.business;
 import java.util.List;
 
 public class Cart {
-    
+
     User user;
     List<Item> items;
     Coupon coupon;
@@ -35,5 +35,21 @@ public class Cart {
 
     public void setCoupon(Coupon coupon) {
         this.coupon = coupon;
+    }
+
+    public void addItem(Item item) {
+        this.items.add(item);
+    }
+    
+    public Item findItem(String name)
+    {
+        for (Item item : items)
+        {
+            if (item.name.equals(name))
+            {
+                return item;
+            }
+        }
+        return null;
     }
 }

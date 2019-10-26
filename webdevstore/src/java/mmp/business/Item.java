@@ -5,13 +5,12 @@
  */
 package mmp.business;
 
-
 public class Item {
-    
+
     String name;
-    int bluRayQuantity;
-    int dvdQuantity;
-    int digitalQuantity;
+    int bluRayQuantity = 0;
+    int dvdQuantity = 0;
+    int digitalQuantity = 0;
     float brPrice;
     float dvdPrice;
     float digitalPrice;
@@ -71,6 +70,5 @@ public class Item {
     public void setDigitalPrice(float digitalPrice) {
         this.digitalPrice = digitalPrice;
     }
-    
-    
+
 }

@@ -25,7 +25,7 @@ public class Helper {
         item.setBrPrice(1.11f);
         item.setDigitalQuantity(11);
         item.setDigitalPrice(11.11f);
-        item.setDvdQuantity(111);
+        item.setDvdQuantity(0);
         item.setDvdPrice(111.11f);
         items.add(item);
 
@@ -41,7 +41,7 @@ public class Helper {
 
         item = new Item();
         item.setName("Movie 3");
-        item.setBluRayQuantity(3);
+        item.setBluRayQuantity(0);
         item.setBrPrice(3.3f);
         item.setDigitalQuantity(33);
         item.setDigitalPrice(33.33f);
@@ -61,9 +61,9 @@ public class Helper {
 
         item = new Item();
         item.setName("Movie 5");
-        item.setBluRayQuantity(5);
+        item.setBluRayQuantity(0);
         item.setBrPrice(5.5f);
-        item.setDigitalQuantity(55);
+        item.setDigitalQuantity(0);
         item.setDigitalPrice(55.55f);
         item.setDvdQuantity(555);
         item.setDvdPrice(555.55f);
