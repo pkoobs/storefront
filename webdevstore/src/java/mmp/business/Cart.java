@@ -5,12 +5,29 @@
  */
 package mmp.business;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
 import java.util.List;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
-public class Cart {
+@Entity
+public class Cart implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long cartId;
+    
+    @OneToOne
     User user;
+    
+    @OneToMany
     List<Item> items;
+    
+    @OneToOne
     Coupon coupon;
 
     public User getUser() {

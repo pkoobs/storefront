@@ -5,7 +5,15 @@
  */
 package mmp.business;
 
+import javax.persistence.Entity;
+import java.io.Serializable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-public class Coupon {
-    
+@Entity
+public class Coupon implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long couponId;
 }

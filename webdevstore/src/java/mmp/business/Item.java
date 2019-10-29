@@ -5,8 +5,18 @@
  */
 package mmp.business;
 
-public class Item {
+import javax.persistence.Entity;
+import java.io.Serializable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
+public class Item implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long itemId;
     String name;
     int bluRayQuantity = 0;
     int dvdQuantity = 0;
