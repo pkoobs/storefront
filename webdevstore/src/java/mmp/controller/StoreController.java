@@ -160,12 +160,14 @@ public class StoreController extends HttpServlet {
             String password = request.getParameter("password");
             String email = request.getParameter("email");
             log("login has been requested with " + password + " " + email);
-            user.setEmail(email);
-            user.setPassword(password);
-            session.setAttribute("user", user);
+            if (handleLogin(request, response, email, password)) {
+                dispatcher = getServletConfig().getServletContext()
+                        .getRequestDispatcher("/pages/catalog.jsp");
+            } else {
+                dispatcher = getServletConfig().getServletContext()
+                        .getRequestDispatcher("/pages/login.jsp");
+            }
 
-            dispatcher = getServletConfig().getServletContext()
-                    .getRequestDispatcher("/pages/catalog.jsp");
         } else if ("Add Item".equals(action)) {
 
             Item item = new Item();
@@ -192,7 +194,7 @@ public class StoreController extends HttpServlet {
             dispatcher = getServletConfig().getServletContext()
                     .getRequestDispatcher("/pages/catalog.jsp");
         } else if (action.contains("submitOrder")) {
-            handleSubmitOrder(request, response);
+            handleSubmitOrder(request, response, user, cart);
             dispatcher = getServletConfig().getServletContext()
                     .getRequestDispatcher("/pages/orderSummary.jsp");
         } else if (action.contains("checkout")) {
@@ -218,7 +220,12 @@ public class StoreController extends HttpServlet {
             createPdf(request, response, user, cart);
             dispatcher = getServletConfig().getServletContext()
                     .getRequestDispatcher("/pages/orderSummary.jsp");
-        } else {
+        } else if (action.contains("logout")) {
+            handleLogout(request, response, user);
+            dispatcher = getServletConfig().getServletContext()
+                    .getRequestDispatcher("index.jsp");
+        }
+        else {
             log("cant find the action " + action);
             dispatcher = getServletConfig().getServletContext()
                     .getRequestDispatcher("index.jsp");
@@ -257,9 +264,9 @@ public class StoreController extends HttpServlet {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void handleSubmitOrder(HttpServletRequest request, HttpServletResponse response) {
+    private void handleSubmitOrder(HttpServletRequest request, HttpServletResponse response, User user, Cart cart) {
         //do something
-        
+        sendEmail(cart, user);
         //remove session objects
     }
 
@@ -267,6 +274,25 @@ public class StoreController extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
 
+    }
+
+    private boolean handleLogin(HttpServletRequest request, HttpServletResponse response, String email, String password) {
+
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
+        HttpSession session = request.getSession();
+
+        //remove this line after verifying user really logged in.
+        user.setName("MMP");
+
+        //find user in our DB
+        session.setAttribute("user", user);
+        return true;
+    }
+
+    private void handleLogout(HttpServletRequest request, HttpServletResponse response, User user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

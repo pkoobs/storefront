@@ -49,6 +49,20 @@ and open the template in the editor.
             Welcome <%= name%>
         </div>
 
+        <%
+            if (user != null) {
+        %>
+        <form action="/webdevstore/StoreController" method="post">
+            <input type="hidden" name="action" value="logout">    
+            <input type="submit" value="Logout">
+        </form>
+        <%
+            }
+        %>
+
+
+
+
         <form action="/webdevstore/pages/cart.jsp" method="post">
             <input type="submit" value="cart">
         </form>
