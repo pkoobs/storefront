@@ -11,7 +11,7 @@
     <body>
         <h1>Registration</h1>
 
-        <form action="../StoreController" method="post">
+        <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="Register">    
             <label class="pad_top">Name:</label>
             <input type="text" name="fullName" required><br>
@@ -21,5 +21,9 @@
             <input type="password" name="password" required><br>
             <input type="submit" value="Register">
         </form>
+
+        <div class="thick">
+            <a href="/webdevstore/index.jsp">Home</a>
+        </div>
     </body>
 </html>

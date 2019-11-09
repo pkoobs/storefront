@@ -13,7 +13,7 @@
         <h1>Survey</h1>
         <%@ page import="java.util.logging.Logger, mmp.business.*, java.util.*" %>
 
-        <form action="../StoreController" method="post">
+        <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="Survey">      
 
             <fieldset>
@@ -36,6 +36,8 @@
 
             <input type="submit" value="Submit Survey">
         </form>
-
+        <div class="thick">
+            <a href="/webdevstore/index.jsp">Home</a>
+        </div>
     </body>
 </html>

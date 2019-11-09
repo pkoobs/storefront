@@ -5,6 +5,17 @@
  */
 package mmp.controller;
 
+import com.itextpdf.text.Anchor;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +23,7 @@ import java.util.List;
 import javax.mail.MessagingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +36,45 @@ import mmp.utils.MailUtilGmail;
 
 @WebServlet(name = "StoreController", urlPatterns = {"/StoreController"})
 public class StoreController extends HttpServlet {
+
+    private void createPdf(HttpServletRequest request,
+            HttpServletResponse response, User user, Cart cart) throws IOException {
+        //get the output stream for writing binary data in the response.
+        ServletOutputStream os = response.getOutputStream();
+        //set the response content type to PDF
+        response.setContentType("application/pdf");
+        //create a new document
+        Document doc = new Document();
+
+        //create some special styles and font sizes
+        Font bfBold18 = new Font(FontFamily.TIMES_ROMAN, 18, Font.BOLD, new BaseColor(0, 0, 0));
+        Font bfBold12 = new Font(FontFamily.TIMES_ROMAN, 12, Font.BOLDITALIC, new BaseColor(0, 0, 0));
+        Font bf12 = new Font(FontFamily.TIMES_ROMAN, 12);
+
+        try {
+
+            //create an instance of the PdfWriter using the output stream
+            PdfWriter.getInstance(doc, os);
+
+            //document header properties
+            doc.addAuthor("MMP");
+            doc.addCreationDate();
+            doc.addProducer();
+            doc.addCreator("mmp.com");
+            doc.addTitle("Order Confirmation");
+            doc.setPageSize(PageSize.LETTER);
+            doc.open();
+
+            doc.add(new Paragraph("Name: " + user.getName(), bfBold18));
+            doc.add(new Paragraph("Email: " + user.getEmail(), bfBold18));
+            doc.add(new Paragraph("List of Courses", bfBold18));
+
+            doc.close();
+
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+    }
 
     // jhu.mhong23@gmail.com
     // qwerty12345!@#$%
@@ -96,6 +147,9 @@ public class StoreController extends HttpServlet {
             cart = new Cart();
             cart.setItems(new ArrayList<Item>());
         }
+
+        User user = (User) session.getAttribute("user");
+        //user could be null, need to check for it
         String action = request.getParameter("action");
         log("action: " + action);
 
@@ -106,7 +160,6 @@ public class StoreController extends HttpServlet {
             String password = request.getParameter("password");
             String email = request.getParameter("email");
             log("login has been requested with " + password + " " + email);
-            User user = new User();
             user.setEmail(email);
             user.setPassword(password);
             session.setAttribute("user", user);
@@ -124,8 +177,12 @@ public class StoreController extends HttpServlet {
                     .getRequestDispatcher("/pages/catalog.jsp");
         } else if (action.startsWith("Add")) {
             handleAddItem(request, response);
+            dispatcher = getServletConfig().getServletContext()
+                    .getRequestDispatcher("/pages/catalog.jsp");
         } else if (action.startsWith("Remove")) {
             handleRemoveItem(request, response);
+            dispatcher = getServletConfig().getServletContext()
+                    .getRequestDispatcher("/pages/cart.jsp");
         } else if (action.contains("Survey")) {
             handleSurveyRequest(request, response);
             dispatcher = getServletConfig().getServletContext()
@@ -134,8 +191,37 @@ public class StoreController extends HttpServlet {
             handleRegisterRequest(request, response);
             dispatcher = getServletConfig().getServletContext()
                     .getRequestDispatcher("/pages/catalog.jsp");
+        } else if (action.contains("submitOrder")) {
+            handleSubmitOrder(request, response);
+            dispatcher = getServletConfig().getServletContext()
+                    .getRequestDispatcher("/pages/orderSummary.jsp");
+        } else if (action.contains("checkout")) {
+            if (null == user) {
+                dispatcher = getServletConfig().getServletContext()
+                        .getRequestDispatcher("/pages/login.jsp");
+            } else {
+                dispatcher = getServletConfig().getServletContext()
+                        .getRequestDispatcher("/pages/checkout.jsp");
+            }
+        } else if (action.contains("register")) {
+            String fullName = request.getParameter("fullname");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            User newUser = new User();
+            newUser.setName(fullName);
+            newUser.setPassword(password);
+            newUser.setEmail(email);
+            registerUser(request, response, newUser);
+            dispatcher = getServletConfig().getServletContext()
+                    .getRequestDispatcher("/pages/checkout.jsp");
+        } else if (action.contains("pdf")) {
+            createPdf(request, response, user, cart);
+            dispatcher = getServletConfig().getServletContext()
+                    .getRequestDispatcher("/pages/orderSummary.jsp");
         } else {
             log("cant find the action " + action);
+            dispatcher = getServletConfig().getServletContext()
+                    .getRequestDispatcher("index.jsp");
         }
 
         session.setAttribute("cart", cart);
@@ -169,6 +255,18 @@ public class StoreController extends HttpServlet {
 
     private void handleRegisterRequest(HttpServletRequest request, HttpServletResponse response) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void handleSubmitOrder(HttpServletRequest request, HttpServletResponse response) {
+        //do something
+        
+        //remove session objects
+    }
+
+    private void registerUser(HttpServletRequest request, HttpServletResponse response, User user) {
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user);
+
     }
 
 }

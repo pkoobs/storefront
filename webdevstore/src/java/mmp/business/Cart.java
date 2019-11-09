@@ -21,6 +21,14 @@ public class Cart {
         this.user = user;
     }
 
+    public int getTotalItemCount() {
+        int total = 0;
+        for (Item i : getItems()) {
+            total += i.bluRayQuantity + i.getDigitalQuantity() + i.getDvdQuantity();
+        }
+        return total;
+    }
+
     public List<Item> getItems() {
         return items;
     }
@@ -40,13 +48,10 @@ public class Cart {
     public void addItem(Item item) {
         this.items.add(item);
     }
-    
-    public Item findItem(String name)
-    {
-        for (Item item : items)
-        {
-            if (item.name.equals(name))
-            {
+
+    public Item findItem(String name) {
+        for (Item item : items) {
+            if (item.name.equals(name)) {
                 return item;
             }
         }

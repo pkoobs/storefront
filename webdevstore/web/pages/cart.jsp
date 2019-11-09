@@ -16,8 +16,10 @@
         <%
             Logger logger = Logger.getLogger(this.getClass().getName());
             User user = (User) session.getAttribute("user");
+            String name = "Guest";
             if (user != null) {
                 logger.info("welcome back " + user.getName());
+                name = user.getName();
             } else {
                 logger.info("user is null");
             }
@@ -27,14 +29,30 @@
                 cart = new Cart();
                 cart.setItems(new ArrayList<Item>());
             }
-            logger.info("cart size is " + cart.getItems().size());
+            logger.info("cart size is " + cart.getTotalItemCount());
+        %>
+
+        <div class="thick">
+            Cart size: <%= cart.getTotalItemCount()%>
+        </div>
+        <div>
+            Welcome <%= name%>
+        </div>
+
+        <%
+            if (cart.getTotalItemCount() == 0) {
+        %>
+
+        <div>Empty Cart</div>
+        <%
+            }
         %>
 
         <c:forEach items="${cartItems}" var="item" >
             <div>
                 <span><c:out value="${item.name}" /></span>
 
-                <form action="StoreController" method="post">
+                <form action="/webdevstore/StoreController" method="post">
 
                     <c:if test="${item.getDvdQuantity() > 0}">
                         ${item.getDvdQuantity()}x
@@ -53,9 +71,16 @@
                     </c:if>
 
                 </form>
+
+                <form action="/webdevstore/StoreController" method="post">
+                    <input type="hidden" name="action" value="checkout"> 
+                    <input type="submit" value="checkout">
+                </form>
             </div>
         </c:forEach>
 
-
+        <div class="thick">
+            <a href="/webdevstore/index.jsp">Home</a>
+        </div>
     </body>
 </html>

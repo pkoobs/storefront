@@ -24,8 +24,10 @@ and open the template in the editor.
         <%
             Logger logger = Logger.getLogger(this.getClass().getName());
             User user = (User) session.getAttribute("user");
+            String name = "Guest";
             if (user != null) {
                 logger.info("welcome back " + user.getName());
+                name = user.getName();
             } else {
                 logger.info("user is null");
             }
@@ -36,31 +38,38 @@ and open the template in the editor.
                 cart.setItems(new ArrayList<Item>());
             }
             logger.info("cart size is " + cart.getItems().size());
+
         %>
 
 
         <div class="thick">
-            Cart size: <%= cart.getItems().size()%>
+            Cart size: <%= cart.getTotalItemCount()%>
+        </div>
+        <div>
+            Welcome <%= name%>
         </div>
 
-        <form action="pages/cart.jsp" method="post">
+        <form action="/webdevstore/pages/cart.jsp" method="post">
             <input type="submit" value="cart">
         </form>
-        <form action="StoreController" method="post">
+        <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="catalog">    
             <input type="submit" value="catalog">
         </form>
 
-        <form action="pages/checkout.jsp" method="post">
+        <form action="/webdevstore/StoreController" method="post">
+            <input type="hidden" name="action" value="checkout"> 
             <input type="submit" value="checkout">
         </form>
-        <form action="pages/registration.jsp" method="post">
+
+
+        <form action="/webdevstore/pages/registration.jsp" method="post">
             <input type="submit" value="registration">
         </form>
-        <form action="pages/survey.jsp" method="post">
+        <form action="/webdevstore/pages/survey.jsp" method="post">
             <input type="submit" value="survey">
         </form>
-        <form action="StoreController" method="post">
+        <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="login">    
 
             <fieldset>

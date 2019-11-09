@@ -9,5 +9,9 @@
     </head>
     <body>
         <h1>Thank you for filling out survey!</h1>
+
+        <div class="thick">
+            <a href="/webdevstore/index.jsp">Home</a>
+        </div>
     </body>
 </html>
