@@ -7,7 +7,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Survey Page</title>
-        <link rel="stylesheet" href="styles/main.css" type="text/css"/>
+        <link rel="stylesheet" href="/webdevstore/styles/main.css" type="text/css"/>
     </head>
     <body>
         <h1>Survey</h1>

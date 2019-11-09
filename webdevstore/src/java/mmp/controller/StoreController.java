@@ -165,8 +165,8 @@ public class StoreController extends HttpServlet {
             Cookie[] cookies = request.getCookies();
             String emailAddress = CookieUtil.getCookieValue(cookies, "mmp_email");
             if (emailAddress != null && emailAddress.length() > 0) {
-                user = getUser(emailAddress);
-                session.setAttribute("cookieEmail", user.getEmail());
+                User cookieuser = getUser(emailAddress);
+                session.setAttribute("cookieEmail", cookieuser.getEmail());
                 //session.setAttribute("user", user);
             }
 
@@ -216,7 +216,8 @@ public class StoreController extends HttpServlet {
             dispatcher = getServletConfig().getServletContext()
                     .getRequestDispatcher("/pages/orderSummary.jsp");
         } else if (action.contains("checkout")) {
-            if (null == user) {
+            log("trying to checkout " + user);
+            if (null == user || null == user.getEmail() || null == user.getName()) {
                 dispatcher = getServletConfig().getServletContext()
                         .getRequestDispatcher("/pages/login.jsp");
             } else {
