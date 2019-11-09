@@ -14,6 +14,10 @@ public class User {
     String ccNumber;
     String password;
 
+    @Override
+    public String toString() {
+        return "Name: " + name + ", email: " + email;
+    }
     public String getPassword() {
         return password;
     }

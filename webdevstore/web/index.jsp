@@ -25,9 +25,13 @@ and open the template in the editor.
             Logger logger = Logger.getLogger(this.getClass().getName());
             User user = (User) session.getAttribute("user");
             String name = "Guest";
+            String email = "not logged in";
             if (user != null) {
                 logger.info("welcome back " + user.getName());
                 name = user.getName();
+                if (user.getEmail() != null && user.getEmail().length() != 0) {
+                    email = "logged in as " + user.getEmail();
+                }
             } else {
                 logger.info("user is null");
             }
@@ -47,6 +51,9 @@ and open the template in the editor.
         </div>
         <div>
             Welcome <%= name%>
+        </div>
+        <div>
+            <%= email%>
         </div>
 
         <%

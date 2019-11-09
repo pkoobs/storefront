@@ -12,9 +12,9 @@
         <h1>Registration</h1>
 
         <form action="/webdevstore/StoreController" method="post">
-            <input type="hidden" name="action" value="Register">    
+            <input type="hidden" name="action" value="register">    
             <label class="pad_top">Name:</label>
-            <input type="text" name="fullName" required><br>
+            <input type="text" name="fullname" required><br>
             <label class="pad_top">Email:</label>
             <input type="email" name="email" required><br>
             <label class="pad_top">Password:</label>

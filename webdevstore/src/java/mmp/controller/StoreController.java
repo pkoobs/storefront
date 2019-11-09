@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.mail.MessagingException;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
@@ -31,11 +32,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import mmp.business.*;
+import mmp.utils.CookieUtil;
 import mmp.utils.Helper;
 import mmp.utils.MailUtilGmail;
 
 @WebServlet(name = "StoreController", urlPatterns = {"/StoreController"})
 public class StoreController extends HttpServlet {
+
+    private User getUser(String email) {
+        //search DB for user information
+        User user = new User();
+        user.setEmail(email);
+        user.setName("Change Me");
+        return user;
+
+    }
 
     private void createPdf(HttpServletRequest request,
             HttpServletResponse response, User user, Cart cart) throws IOException {
@@ -149,7 +160,17 @@ public class StoreController extends HttpServlet {
         }
 
         User user = (User) session.getAttribute("user");
-        //user could be null, need to check for it
+        //user could be null, check cookies first
+        if (null == user) {
+            Cookie[] cookies = request.getCookies();
+            String emailAddress = CookieUtil.getCookieValue(cookies, "mmp_email");
+            if (emailAddress != null && emailAddress.length() > 0) {
+                user = getUser(emailAddress);
+                session.setAttribute("user", user);
+            }
+
+        }
+
         String action = request.getParameter("action");
         log("action: " + action);
 
@@ -189,10 +210,6 @@ public class StoreController extends HttpServlet {
             handleSurveyRequest(request, response);
             dispatcher = getServletConfig().getServletContext()
                     .getRequestDispatcher("/pages/surveyThankyou.jsp");
-        } else if (action.contains("REgister")) {
-            handleRegisterRequest(request, response);
-            dispatcher = getServletConfig().getServletContext()
-                    .getRequestDispatcher("/pages/catalog.jsp");
         } else if (action.contains("submitOrder")) {
             handleSubmitOrder(request, response, user, cart);
             dispatcher = getServletConfig().getServletContext()
@@ -214,6 +231,7 @@ public class StoreController extends HttpServlet {
             newUser.setPassword(password);
             newUser.setEmail(email);
             registerUser(request, response, newUser);
+
             dispatcher = getServletConfig().getServletContext()
                     .getRequestDispatcher("/pages/checkout.jsp");
         } else if (action.contains("pdf")) {
@@ -223,16 +241,25 @@ public class StoreController extends HttpServlet {
         } else if (action.contains("logout")) {
             handleLogout(request, response, user);
             dispatcher = getServletConfig().getServletContext()
-                    .getRequestDispatcher("index.jsp");
-        }
-        else {
+                    .getRequestDispatcher("/index.jsp");
+        } else {
             log("cant find the action " + action);
             dispatcher = getServletConfig().getServletContext()
-                    .getRequestDispatcher("index.jsp");
+                    .getRequestDispatcher("/index.jsp");
         }
 
         session.setAttribute("cart", cart);
         session.setAttribute("cartItems", cart.getItems());
+
+        //cookie actions
+        // store the request attributes as cookies
+        if (user != null && user.getEmail() != null && user.getEmail().length() != 0) {
+            log("creating an email cookie with " + user.getEmail());
+            Cookie emailCookie = new Cookie("mmp_email", user.getEmail());
+            emailCookie.setMaxAge(60 * 60 * 24 * 365 * 2); // set age to 2 years
+            emailCookie.setPath("/"); // allow entire app to access it
+            response.addCookie(emailCookie);
+        }
         dispatcher.forward(request, response);
 
     }
@@ -260,10 +287,6 @@ public class StoreController extends HttpServlet {
 
     }
 
-    private void handleRegisterRequest(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     private void handleSubmitOrder(HttpServletRequest request, HttpServletResponse response, User user, Cart cart) {
         //do something
         sendEmail(cart, user);
@@ -273,7 +296,7 @@ public class StoreController extends HttpServlet {
     private void registerUser(HttpServletRequest request, HttpServletResponse response, User user) {
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-
+        log("user info: " + user.toString());
     }
 
     private boolean handleLogin(HttpServletRequest request, HttpServletResponse response, String email, String password) {
@@ -284,7 +307,7 @@ public class StoreController extends HttpServlet {
         HttpSession session = request.getSession();
 
         //remove this line after verifying user really logged in.
-        user.setName("MMP");
+        user.setName("mmp name");
 
         //find user in our DB
         session.setAttribute("user", user);
@@ -292,7 +315,9 @@ public class StoreController extends HttpServlet {
     }
 
     private void handleLogout(HttpServletRequest request, HttpServletResponse response, User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        log("handling logout action");
+        HttpSession session = request.getSession();
+        session.removeAttribute("user");
     }
 
 }
