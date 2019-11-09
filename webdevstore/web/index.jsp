@@ -26,6 +26,10 @@ and open the template in the editor.
             User user = (User) session.getAttribute("user");
             String name = "Guest";
             String email = "not logged in";
+            String cookieEmail = "";
+            if (session.getAttribute("cookieEmail") != null) {
+                cookieEmail = (String) session.getAttribute("cookieEmail");
+            }
             if (user != null) {
                 logger.info("welcome back " + user.getName());
                 name = user.getName();
@@ -84,25 +88,39 @@ and open the template in the editor.
         </form>
 
 
+        <%
+            if (user == null) {
+        %>
         <form action="/webdevstore/pages/registration.jsp" method="post">
             <input type="submit" value="registration">
         </form>
+
+
         <form action="/webdevstore/pages/survey.jsp" method="post">
             <input type="submit" value="survey">
         </form>
+        <%
+            }
+        %>
+
+        <%
+            if (user == null) {
+        %>
         <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="login">    
-
             <fieldset>
                 <legend>Login</legend>
                 <label class="pad_top">Email:</label>
-                <input type="email" name="email" required><br>
+                <input type="email" name="email" value="<%= cookieEmail%>" required><br>
                 <label class="pad_top">Password:</label>
                 <input type="password" name="password" required><br>
                 <input type="submit" value="Login" >
             </fieldset>
 
         </form>
+        <%
+            }
+        %>
 
     </body>
 </html>

@@ -166,7 +166,8 @@ public class StoreController extends HttpServlet {
             String emailAddress = CookieUtil.getCookieValue(cookies, "mmp_email");
             if (emailAddress != null && emailAddress.length() > 0) {
                 user = getUser(emailAddress);
-                session.setAttribute("user", user);
+                session.setAttribute("cookieEmail", user.getEmail());
+                //session.setAttribute("user", user);
             }
 
         }
@@ -231,7 +232,7 @@ public class StoreController extends HttpServlet {
             newUser.setPassword(password);
             newUser.setEmail(email);
             registerUser(request, response, newUser);
-
+            user = (User) session.getAttribute("user");
             dispatcher = getServletConfig().getServletContext()
                     .getRequestDispatcher("/pages/checkout.jsp");
         } else if (action.contains("pdf")) {
