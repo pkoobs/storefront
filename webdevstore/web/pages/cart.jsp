@@ -79,12 +79,14 @@
 
                 </form>
 
-                <form action="/webdevstore/StoreController" method="post">
-                    <input type="hidden" name="action" value="checkout"> 
-                    <input type="submit" value="checkout">
-                </form>
+
             </div>
         </c:forEach>
+
+        <form action="/webdevstore/StoreController" method="post">
+            <input type="hidden" name="action" value="checkout"> 
+            <input type="submit" value="checkout">
+        </form>
 
         <div class="thick">
             <a href="/webdevstore/index.jsp">Home</a>

@@ -37,7 +37,7 @@
         %>
 
         <div class="thick">
-            Cart size: <%= cart.getTotalItemCount()%>
+            <a href="/webdevstore/pages/cart.jsp">Cart size: <%= cart.getTotalItemCount()%></a>
         </div>
         <div>
             Welcome <%= name%>

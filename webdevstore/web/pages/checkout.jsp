@@ -19,11 +19,21 @@
             User user = (User) session.getAttribute("user");
             String name = "Guest";
             String email = "not logged in";
+            String ccNum = "";
+            String ccExp = "";
             if (user != null) {
                 logger.info("welcome back " + user.getName());
                 name = user.getName();
                 if (user.getEmail() != null && user.getEmail().length() != 0) {
                     email = "logged in as " + user.getEmail();
+                }
+                if (user.getCcNumber() != null) {
+                    ccNum = user.getCcNumber();
+                    log("ccNum: " + ccNum);
+                }
+                if (user.getCcExp() != null) {
+                    ccExp = user.getCcExp();
+                    log("ccExp: " + ccExp);
                 }
             } else {
                 logger.info("user is null");
@@ -38,7 +48,7 @@
         %>
 
         <div class="thick">
-            Cart size: <%= cart.getTotalItemCount()%>
+            <a href="/webdevstore/pages/cart.jsp">Cart size: <%= cart.getTotalItemCount()%></a>
         </div>
         <div>
             Welcome <%= name%>
@@ -51,9 +61,9 @@
                 <legend>Payment Details</legend>
                 <label class="pad_top">Credit Card Type: Visa Only</label>
                 <label class="pad_top">Credit Card Number:</label>
-                <input type="text" name="ccNum"  required><br>
+                <input type="text" name="ccNum" value="<%= ccNum%>" required><br>
                 <label class="pad_top">Exp Date (MM/YY):</label>
-                <input type="text" name="ccExp"  required><br>
+                <input type="text" name="ccExp" value="<%= ccExp%>" required><br>
             </fieldset>
 
             <input type="hidden" name="action" value="submitOrder">    
