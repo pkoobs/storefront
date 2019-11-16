@@ -24,7 +24,8 @@ public class Cart {
     public int getTotalItemCount() {
         int total = 0;
         for (Item i : getItems()) {
-            total += i.bluRayQuantity + i.getDigitalQuantity() + i.getDvdQuantity();
+            total += i.getBluRayQuantity() + i.getDigitalQuantity() + i.getDvdQuantity();
+            System.out.println("total cart count is " + total);
         }
         return total;
     }
@@ -56,5 +57,59 @@ public class Cart {
             }
         }
         return null;
+    }
+
+    public void cleanup() {
+        int idx = -1;
+        boolean allEmpty = false;
+        for (Item item : items) {
+            ++idx;
+
+            if (item.getDigitalQuantity() <= 0
+                    && item.getBluRayQuantity() <= 0
+                    && item.getDvdQuantity() <= 0) {
+                allEmpty = true;
+                System.out.println("all quantities of " + item.getName() + " are 0, removing item");
+                break;
+            } else {
+                System.out.println(item.getName() + " has "
+                        + item.getDvdQuantity() + " dvd, "
+                        + item.getDigitalQuantity() + " digital, "
+                        + item.getBluRayQuantity() + " BR"
+                );
+            }
+        }
+        if (allEmpty) {
+            System.out.println("removing index " + idx + " " + items.get(idx).getName());
+            items.remove(idx);
+        }
+        System.out.println("total cart count " + getTotalItemCount());
+    }
+
+    public void removeItem(String name, String action) {
+        System.out.println("trying to remove movie: " + name + " with type " + action);
+
+        for (Item item : items) {
+            if (item.name.equals(name)) {
+                if (action.contains("Digital")) {
+                    int q = item.getDigitalQuantity();
+                    item.setDigitalQuantity(--q);
+                    System.out.println("successfully decremented movie "
+                            + item.getName() + " with new Digital quantity " + item.getDigitalQuantity());
+                } else if (action.contains("Blu")) {
+                    int q = item.getBluRayQuantity();
+                    item.setBluRayQuantity(--q);
+                    System.out.println("successfully decremented movie "
+                            + item.getName() + " with BR quantity " + item.getBluRayQuantity());
+                } else if (action.contains("DVD")) {
+                    int q = item.getDvdQuantity();
+                    item.setDvdQuantity(--q);
+                    System.out.println("successfully decremented movie "
+                            + item.getName() + " with DVD quanity " + item.getDvdQuantity());
+                }
+
+            }
+        }
+        cleanup();
     }
 }

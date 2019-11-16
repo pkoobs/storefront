@@ -207,6 +207,15 @@ public class StoreController extends HttpServlet {
             handleRemoveItem(request, response);
             dispatcher = getServletConfig().getServletContext()
                     .getRequestDispatcher("/pages/cart.jsp");
+        } else if (action.contains("account")) {
+
+            dispatcher = getServletConfig().getServletContext()
+                    .getRequestDispatcher("/pages/account.jsp");
+        } else if (action.contains("updateAccount")) {
+            User updateUser = new User();
+            updateAccount(request, response, updateUser);
+            dispatcher = getServletConfig().getServletContext()
+                    .getRequestDispatcher("/pages/account.jsp");
         } else if (action.contains("Survey")) {
             handleSurveyRequest(request, response);
             dispatcher = getServletConfig().getServletContext()
@@ -228,14 +237,35 @@ public class StoreController extends HttpServlet {
             String fullName = request.getParameter("fullname");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
+            String address = request.getParameter("address");
+            String city = request.getParameter("city");
+            String state = request.getParameter("state");
+            String zip = request.getParameter("zip");
+            String phone = request.getParameter("phone");
+
+            String ccExp = request.getParameter("ccExp");
+
             User newUser = new User();
+            if (null != request.getParameter("ccNum")) {
+                log("ccNumber is " + request.getParameter("ccNum"));
+                newUser.setCcNumber(request.getParameter("ccNum"));
+            }
+            if (null != request.getParameter("ccExp")) {
+                newUser.setCcExp(request.getParameter("ccExp"));
+                log("ccExp is " + request.getParameter("ccExp"));
+            }
             newUser.setName(fullName);
             newUser.setPassword(password);
             newUser.setEmail(email);
+            newUser.setPhoneNumber(phone);
+            newUser.setAddress(address);
+            newUser.setCity(city);
+            newUser.setState(state);
+            newUser.setZip(zip);
             registerUser(request, response, newUser);
             user = (User) session.getAttribute("user");
             dispatcher = getServletConfig().getServletContext()
-                    .getRequestDispatcher("/pages/checkout.jsp");
+                    .getRequestDispatcher("/pages/cart.jsp");
         } else if (action.contains("pdf")) {
             createPdf(request, response, user, cart);
             dispatcher = getServletConfig().getServletContext()
@@ -249,10 +279,10 @@ public class StoreController extends HttpServlet {
             dispatcher = getServletConfig().getServletContext()
                     .getRequestDispatcher("/index.jsp");
         }
-
-        session.setAttribute("cart", cart);
-        session.setAttribute("cartItems", cart.getItems());
-
+        if (!action.contains("logout")) {
+            session.setAttribute("cart", cart);
+            session.setAttribute("cartItems", cart.getItems());
+        }
         //cookie actions
         // store the request attributes as cookies
         if (user != null && user.getEmail() != null && user.getEmail().length() != 0) {
@@ -277,7 +307,13 @@ public class StoreController extends HttpServlet {
     }
 
     private void handleRemoveItem(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("cart");
+        String movieCode = request.getParameter("movieCode");
+        String action = request.getParameter("action");
 
+        cart.removeItem(movieCode, action);
+        session.setAttribute("cart", cart);
     }
 
     private void handleSurveyRequest(HttpServletRequest request, HttpServletResponse response) {
@@ -320,6 +356,11 @@ public class StoreController extends HttpServlet {
         log("handling logout action");
         HttpSession session = request.getSession();
         session.removeAttribute("user");
+        session.removeAttribute("cart");
+    }
+
+    private void updateAccount(HttpServletRequest request, HttpServletResponse response, User updateUser) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

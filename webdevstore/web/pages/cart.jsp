@@ -84,8 +84,13 @@
         </c:forEach>
 
         <form action="/webdevstore/StoreController" method="post">
+            <input type="hidden" name="action" value="catalog">    
+            <input type="submit" value="catalog">
+        </form>
+
+        <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="checkout"> 
-            <input type="submit" value="checkout">
+            <input type="submit" class="checkoutButton" value="checkout">
         </form>
 
         <div class="thick">

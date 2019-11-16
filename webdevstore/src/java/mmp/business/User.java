@@ -10,14 +10,58 @@ public class User {
     String name;
     String email;
     String address;
+    String zip;
+    String state;
+    String city;
     String phoneNumber;
     String ccNumber;
+    String ccExp;
     String password;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCcExp() {
+        return ccExp;
+    }
+
+    public void setCcExp(String ccExp) {
+        this.ccExp = ccExp;
+    }
 
     @Override
     public String toString() {
-        return "Name: " + name + ", email: " + email;
+        return "Name: " + name
+                + ", email: " + email
+                + ", ccNum: " + ccNumber
+                + ", ccExp: " + ccExp
+                + ", address: " + address
+                + ", city: " + city
+                + ", zip: " + zip
+                + ", state: " + state;
     }
+
     public String getPassword() {
         return password;
     }

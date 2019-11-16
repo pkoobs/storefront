@@ -49,9 +49,8 @@ and open the template in the editor.
 
         %>
 
-
         <div class="thick">
-            Cart size: <%= cart.getTotalItemCount()%>
+            <a href="/webdevstore/pages/cart.jsp">Cart size: <%= cart.getTotalItemCount()%></a>
         </div>
         <div>
             Welcome <%= name%>
@@ -66,6 +65,10 @@ and open the template in the editor.
         <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="logout">    
             <input type="submit" value="Logout">
+        </form>
+        <form action="/webdevstore/StoreController" method="post">
+            <input type="hidden" name="action" value="account"> 
+            <input type="submit" value="Account">
         </form>
         <%
             }
@@ -84,14 +87,15 @@ and open the template in the editor.
 
         <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="checkout"> 
-            <input type="submit" value="checkout">
+            <input type="submit" class="checkoutButton" value="checkout">
         </form>
+
 
 
         <%
             if (user == null) {
         %>
-        <form action="/webdevstore/pages/registration.jsp" method="post">
+        <form action="/webdevstore/pages/login.jsp" method="post">
             <input type="submit" value="registration">
         </form>
 
