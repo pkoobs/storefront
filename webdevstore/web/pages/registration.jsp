@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Register with us!</title>
     </head>
     <body>
         <h1>Registration</h1>
@@ -20,6 +20,10 @@
             <label class="pad_top">Password:</label>
             <input type="password" name="password" required><br>
             <input type="submit" value="Register">
+        </form>
+        <br/>
+        <form action="../index.jsp" method="POST">
+            <input type="submit" value=" Return Home" style="border: 2px solid black;">
         </form>
     </body>
 </html>

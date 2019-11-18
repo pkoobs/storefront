@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>User Cart</title>
     </head>
     <body>
         <h1>Cart</h1>
@@ -56,6 +56,9 @@
             </div>
         </c:forEach>
 
-
+    <br/>
+    <form action="../index.jsp" method="POST">
+        <input type="submit" value="Return Home" style="border: 2px solid black;">
+    </form>    
     </body>
 </html>

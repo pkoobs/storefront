@@ -36,6 +36,9 @@
 
             <input type="submit" value="Submit Survey">
         </form>
-
+    <br/>
+    <form action="../index.jsp" method="POST">
+        <input type="submit" value="Return Home" style="border: 2px solid black;">
+    </form>
     </body>
 </html>
