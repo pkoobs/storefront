@@ -49,13 +49,13 @@
 
         <div class="thick">
             <a href="/webdevstore/pages/cart.jsp">Cart size: <%= cart.getTotalItemCount()%></a>
-        </div>
+        </div><br/>
         <div>
             Welcome <%= name%>
         </div>
         <div>
             <%= email%>
-        </div>
+        </div><br/>
         <form action="/webdevstore/StoreController" method="post">
             <fieldset>
                 <legend>Payment Details</legend>
@@ -64,12 +64,12 @@
                 <input type="text" name="ccNum" value="<%= ccNum%>" required><br>
                 <label class="pad_top">Exp Date (MM/YY):</label>
                 <input type="text" name="ccExp" value="<%= ccExp%>" required><br>
-            </fieldset>
+            </fieldset><br/>
 
             <input type="hidden" name="action" value="submitOrder">    
             <input type="submit" value="Submit Order">
 
-        </form>
+        </form><br/>
         <div class="thick">
             <a href="/webdevstore/index.jsp">Home</a>
         </div>

@@ -39,18 +39,18 @@
 
         <div class="thick">
             Cart size: <%= cart.getTotalItemCount()%>
-        </div>
+        </div><br/>
         <div>
             Welcome <%= name%>
         </div>
         <div>
             <%= email%>
-        </div>
+        </div><br/>
         <%
             if (cart.getTotalItemCount() == 0) {
         %>
 
-        <div>Empty Cart</div>
+        <div>Empty Cart</div><br/>
         <%
             }
         %>
@@ -80,18 +80,18 @@
                 </form>
 
 
-            </div>
+            </div><br/>
         </c:forEach>
 
         <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="catalog">    
             <input type="submit" value="catalog">
-        </form>
+        </form><br/>
 
         <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="checkout"> 
             <input type="submit" class="checkoutButton" value="checkout">
-        </form>
+        </form><br/>
 
         <div class="thick">
             <a href="/webdevstore/index.jsp">Home</a>

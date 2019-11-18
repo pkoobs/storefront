@@ -29,11 +29,11 @@
 
         <fieldset>
             <legend>More Actions</legend>
-            <form action="/webdevstore/StoreController" method="post">
+            <form action="/webdevstore/StoreController" method="post" target="_blank">
                 <input type="hidden" name="action" value="pdf">   
                 <input type="submit" value="PDF for your records">
             </form>
-        </fieldset>
+        </fieldset><br/>
 
         <div class="thick">
             <a href="/webdevstore/index.jsp">Home</a>

@@ -51,13 +51,13 @@ and open the template in the editor.
 
         <div class="thick">
             <a href="/webdevstore/pages/cart.jsp">Cart size: <%= cart.getTotalItemCount()%></a>
-        </div>
+        </div><br/>
         <div>
             Welcome <%= name%>
         </div>
         <div>
             <%= email%>
-        </div>
+        </div><br/>
 
         <%
             if (user != null) {
@@ -65,11 +65,11 @@ and open the template in the editor.
         <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="logout">    
             <input type="submit" value="Logout">
-        </form>
+        </form><br/>
         <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="account"> 
             <input type="submit" value="Account">
-        </form>
+        </form><br/>
         <%
             }
         %>
@@ -79,16 +79,16 @@ and open the template in the editor.
 
         <form action="/webdevstore/pages/cart.jsp" method="post">
             <input type="submit" value="cart">
-        </form>
+        </form><br/>
         <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="catalog">    
             <input type="submit" value="catalog">
-        </form>
+        </form><br/>
 
         <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="checkout"> 
             <input type="submit" class="checkoutButton" value="checkout">
-        </form>
+        </form><br/>
 
 
 
@@ -97,12 +97,12 @@ and open the template in the editor.
         %>
         <form action="/webdevstore/pages/login.jsp" method="post">
             <input type="submit" value="registration">
-        </form>
+        </form><br/>
 
 
         <form action="/webdevstore/pages/survey.jsp" method="post">
             <input type="submit" value="survey">
-        </form>
+        </form><br/>
         <%
             }
         %>

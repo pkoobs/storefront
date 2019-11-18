@@ -99,7 +99,7 @@ public class StoreController extends HttpServlet {
         String subject = "Welcome to our email list";
         String body = "Dear " + name + ",\n\n"
                 + "Thanks for shopping at our store. "
-                + "you announcements about new products and promotions.\n"
+                + "Be on the lookout for announcements about new products and promotions.\n"
                 + "Have a great day and thanks again!\n\n"
                 + "MMP\n";
 

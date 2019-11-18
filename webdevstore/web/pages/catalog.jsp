@@ -38,13 +38,13 @@
 
         <div class="thick">
             <a href="/webdevstore/pages/cart.jsp">Cart size: <%= cart.getTotalItemCount()%></a>
-        </div>
+        </div><br/>
         <div>
             Welcome <%= name%>
         </div>
         <div>
             <%= email%>
-        </div>
+        </div><br/>
         <%
 
             List<Item> catalog = (List<Item>) session.getAttribute("catalog");
@@ -65,7 +65,7 @@
             <%
                 }
             %>
-        </div>
+        </div><br/>
 
 
         <!-- We need to add boxes Fields digital, BR, or DVD -->
@@ -89,12 +89,12 @@
                     </c:if>
 
                 </form>
-            </div>
+            </div><br/>
         </c:forEach>
         <form action="/webdevstore/StoreController" method="post">
             <input type="hidden" name="action" value="checkout"> 
             <input type="submit" class="checkoutButton" value="checkout">
-        </form>
+        </form><br/>
 
         <div class="thick">
             <a href="/webdevstore/index.jsp">Home</a>

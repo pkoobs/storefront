@@ -33,7 +33,7 @@
 
         <div class="thick">
             <a href="/webdevstore/pages/cart.jsp">Cart size: <%= cart.getTotalItemCount()%></a>
-        </div>
+        </div><br/>
 
         <form action="/webdevstore/StoreController" method="post">
             <fieldset>
@@ -78,7 +78,7 @@
                 <input type="hidden" name="action" value="register"> 
                 <input type="submit" value="Register" >
             </fieldset>
-        </form>
+        </form><br/>
 
         <div class="thick">
             <a href="/webdevstore/index.jsp">Home</a>

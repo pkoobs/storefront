@@ -23,7 +23,7 @@
                 <input type="radio" id="selection3" name="selection" value="3" checked>
                 <input type="radio" id="selection4" name="selection" value="4" >
                 <input type="radio" id="selection5" name="selection" value="5" >
-            </fieldset>
+            </fieldset><br/>
 
             <fieldset>
                 <legend>Shipping Speed (5 is highest)</legend>
@@ -32,10 +32,10 @@
                 <input type="radio" id="shipping3" name="shipping" value="3" checked>
                 <input type="radio" id="shipping4" name="shipping" value="4" >
                 <input type="radio" id="shipping5" name="shipping" value="5" >
-            </fieldset>
+            </fieldset><br/>
 
             <input type="submit" value="Submit Survey">
-        </form>
+        </form><br/>
         <div class="thick">
             <a href="/webdevstore/index.jsp">Home</a>
         </div>
