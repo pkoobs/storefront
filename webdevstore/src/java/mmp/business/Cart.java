@@ -13,6 +13,10 @@ public class Cart {
     List<Item> items;
     Coupon coupon;
 
+    public String toString() {
+        return "total item count " + getTotalItemCount();
+    }
+
     public User getUser() {
         return user;
     }

@@ -78,7 +78,7 @@ public class StoreController extends HttpServlet {
 
             doc.add(new Paragraph("Name: " + user.getName(), bfBold18));
             doc.add(new Paragraph("Email: " + user.getEmail(), bfBold18));
-            doc.add(new Paragraph("List of Courses", bfBold18));
+            doc.add(new Paragraph("Please check your email for your receipt", bfBold18));
 
             doc.close();
 
@@ -102,7 +102,21 @@ public class StoreController extends HttpServlet {
                 + "Be on the lookout for announcements about new products and promotions.\n"
                 + "Have a great day and thanks again!\n\n"
                 + "MMP\n";
-
+        String itemString = "";
+        for (Item i : cart.getItems()) {
+            itemString += i.getName() + "\n";
+            if (i.getBluRayQuantity() > 0) {
+                itemString += "Bluray x " + i.getBluRayQuantity();
+            }
+            if (i.getDigitalQuantity() > 0) {
+                itemString += "Digital x " + i.getDigitalQuantity();
+            }
+            if (i.getDvdQuantity() > 0) {
+                itemString += "DVD x " + i.getDvdQuantity();
+            }
+            itemString += "\n";
+        }
+        body += itemString;
         boolean isBodyHTML = false;
 
         try {
@@ -183,6 +197,11 @@ public class StoreController extends HttpServlet {
             String email = request.getParameter("email");
             log("login has been requested with " + password + " " + email);
             if (handleLogin(request, response, email, password)) {
+                cart = (Cart) session.getAttribute("cart");
+                if (null == cart) {
+                    cart = new Cart();
+                    cart.setItems(new ArrayList<Item>());
+                }
                 dispatcher = getServletConfig().getServletContext()
                         .getRequestDispatcher("/pages/catalog.jsp");
             } else {
@@ -222,6 +241,8 @@ public class StoreController extends HttpServlet {
                     .getRequestDispatcher("/pages/surveyThankyou.jsp");
         } else if (action.contains("submitOrder")) {
             handleSubmitOrder(request, response, user, cart);
+            session.removeAttribute("cart");
+            session.removeAttribute(user.getEmail());
             dispatcher = getServletConfig().getServletContext()
                     .getRequestDispatcher("/pages/orderSummary.jsp");
         } else if (action.contains("checkout")) {
@@ -279,7 +300,7 @@ public class StoreController extends HttpServlet {
             dispatcher = getServletConfig().getServletContext()
                     .getRequestDispatcher("/index.jsp");
         }
-        if (!action.contains("logout")) {
+        if (!action.contains("logout") && !action.contains("submitOrder")) {
             session.setAttribute("cart", cart);
             session.setAttribute("cartItems", cart.getItems());
         }
@@ -328,7 +349,7 @@ public class StoreController extends HttpServlet {
     private void handleSubmitOrder(HttpServletRequest request, HttpServletResponse response, User user, Cart cart) {
         //do something
         sendEmail(cart, user);
-        //remove session objects
+
     }
 
     private void registerUser(HttpServletRequest request, HttpServletResponse response, User user) {
@@ -338,16 +359,23 @@ public class StoreController extends HttpServlet {
     }
 
     private boolean handleLogin(HttpServletRequest request, HttpServletResponse response, String email, String password) {
-
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
         HttpSession session = request.getSession();
+        User user = new User();
+        if (null != session.getAttribute(email)) {
+            Cart userCart = (Cart) session.getAttribute(email);
+            log("found existing user, " + userCart);
+            session.setAttribute("cart", userCart);
+            user = userCart.getUser();
+            log("logging in " + user.toString() + ", " + userCart.toString());
+        } else {
+            user.setEmail(email);
+            user.setPassword(password);
 
-        //remove this line after verifying user really logged in.
-        user.setName("mmp name");
+            //remove this line after verifying user really logged in.
+            user.setName("mmp name");
 
-        //find user in our DB
+        }
+
         session.setAttribute("user", user);
         return true;
     }
@@ -355,6 +383,14 @@ public class StoreController extends HttpServlet {
     private void handleLogout(HttpServletRequest request, HttpServletResponse response, User user) {
         log("handling logout action");
         HttpSession session = request.getSession();
+
+        //before logging off save off old user data.
+        if (user != null && null != session.getAttribute("cart")) {
+            Cart userCart = (Cart) session.getAttribute("cart");
+            userCart.setUser(user);
+            session.setAttribute(user.getEmail(), userCart);
+            log("set session param for " + user + ", " + userCart.toString());
+        }
         session.removeAttribute("user");
         session.removeAttribute("cart");
     }

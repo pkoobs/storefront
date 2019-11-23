@@ -17,7 +17,7 @@ public class User {
     String ccNumber;
     String ccExp;
     String password;
-
+    
     public String getCity() {
         return city;
     }
